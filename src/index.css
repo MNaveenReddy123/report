@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #5b21b6;
+  --muted: #6b7280;
+}
+
+.bg-brand { background-color: var(--brand); }
+.text-brand { color: var(--brand); }
+
+/* .table-header {
+  @apply bg-white border-b;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+  pointer-events: none;
+} */
+
+.table-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 2147483647 !important; /* very high priority */
+  background: #fff !important;     /* ensure header is opaque */
+  pointer-events: none;            /* allow rows to receive hover if header slightly overlaps */
+}
+
+.table-header > div {
+  text-align: left !important;
+  white-space: nowrap !important;
+  overflow: visible !important; /* allow full titles */
+}
+
+/* Titles: NEVER truncate, always show full */
+/* .table-header .header-title-singleline {
+  white-space: nowrap;
+  overflow: visible !important;
+  text-overflow: clip;
+  pointer-events: none;
+} */
+/* Title should be visible but non-interactive and should not visually overflow into rows */
+.table-header .header-title-singleline {
+  pointer-events: none;    /* prevent blocking row hover */
+  white-space: nowrap;
+  overflow: hidden;        /* important: hide any visual spillover into rows */
+  text-overflow: ellipsis;
+}
+/* Rows: values MUST NOT overflow */
+.table-header button,
+.table-header .header-icons {
+  pointer-events: auto;
+  z-index: 10000; /* above header title if needed */
+}
+
+/* .table-row {
+  pointer-events: auto;
+  @apply hover:bg-gray-50;
+  
+} */
+.table-row {
+  pointer-events: auto;
+  @apply hover:bg-gray-50;
+  z-index: 0 !important; /* explicitly keep rows below header */
+  position:  relative !important;
+}
+.table-row > div * {
+  z-index: 0 !important;
+  position: relative !important;
+}
+.table-row > div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Header icons clickable */
+.table-header button,
+.table-header .header-icons {
+  pointer-events: auto;
+}
+
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 900px) {
+  .table-row { font-size: 13px; }
+}
